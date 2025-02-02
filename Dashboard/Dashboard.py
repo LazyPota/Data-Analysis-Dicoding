@@ -18,9 +18,9 @@ plt.rcParams['ytick.color'] = 'white'
 
 # Dataset paths (update these with your local paths)
 
-DATASET_PATH = os.path.join("all_data_df.csv")
-GEOLOCATION_PATH = os.path.join("geolocation.csv")
-LOGO_PATH = os.path.join("png logo data analysis.jpg")
+DATASET_PATH = os.path.join(".", "all_data_df.csv")
+GEOLOCATION_PATH = os.path.join(".", "geolocation.csv")
+LOGO_PATH = os.path.join(".", "png logo data analysis.jpg")
 
 # Load data
 datetime_cols = ["order_approved_at", "order_delivered_carrier_date", 

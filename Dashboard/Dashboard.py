@@ -6,6 +6,7 @@ import streamlit as st
 import urllib
 import numpy as np
 import os
+from matplotlib.dates import DateFormatter
 
 # Set style
 sns.set_style("darkgrid")
@@ -78,6 +79,18 @@ class DataAnalyzer:
     def create_order_status(self):
         order_status_df = self.df["order_status"].value_counts().sort_values(ascending=False)
         return order_status_df, order_status_df.idxmax()
+
+    def create_delivery_analysis(self):
+        self.df['delivery_delay'] = (
+            pd.to_datetime(self.df['order_delivered_customer_date']) - 
+            pd.to_datetime(self.df['order_estimated_delivery_date'])
+        ).dt.days
+        
+        regional_delay = self.df.groupby('customer_state')['delivery_delay'].mean().reset_index()
+        
+        delivery_reviews = self.df[['delivery_delay', 'review_score']].corr().iloc[0,1]
+        
+        return regional_delay, delivery_reviews
 
 class BrazilMapPlotter:
     def __init__(self, data, plt, mpimg, st):
@@ -176,16 +189,74 @@ plt.ylabel("Category", fontsize=12)
 st.pyplot(fig)
 
 # Review Analysis
+
+# Review Analysis
 st.subheader("⭐ Customer Reviews Analysis")
 fig, ax = plt.subplots(figsize=(10, 6))
 colors = plt.cm.viridis_r(np.linspace(0.2, 0.7, len(review_score)))
-sns.barplot(x=review_score.index, y=review_score.values, palette=colors, edgecolor='black')
+sns.barplot(x=review_score.index, y=review_score.values, palette=colors, edgecolor='black', ax=ax)  # Specify ax
+
 plt.title("Review Score Distribution", fontsize=16, pad=20)
 plt.xlabel("Rating", fontsize=12)
 plt.ylabel("Count", fontsize=12)
-for i, v in enumerate(review_score.values):
-    ax.text(i, v + 20, str(v), ha='center', va='bottom', color='white', fontsize=10)
+
+# Improved annotation placement
+for p in ax.patches:  # Iterate through the bar patches
+    ax.annotate(
+        f'{int(p.get_height())}',  # Get the height of the bar (count)
+        (p.get_x() + p.get_width() / 2., p.get_height()),  # Center of the bar
+        ha='center', va='bottom', fontsize=10, color='white', xytext=(0, 5),
+        textcoords='offset points'  # Offset slightly above the bar
+    )
+
 st.pyplot(fig)
+
+# Delivery Performance Analysis
+st.subheader("🚚 Delivery Performance Insights")
+regional_delay, delay_review_corr = function.create_delivery_analysis()
+
+# Create two columns for layout
+col1, col2 = st.columns(2)
+
+with col1:
+    # Regional Delivery Performance
+    st.markdown("**Regional Delivery Timeliness**")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.barplot(
+        data=regional_delay.sort_values(by='delivery_delay', ascending=False).head(10),
+        x='delivery_delay',
+        y='customer_state',
+        palette="viridis",
+        edgecolor='black'
+    )
+    plt.title("Top 10 States with Delivery Delays", fontsize=14)
+    plt.xlabel("Average Delay (Days)", fontsize=12)
+    plt.ylabel("State", fontsize=12)
+    st.pyplot(fig)
+
+with col2:
+    # Impact on Customer Satisfaction
+    st.markdown("**Delivery Impact on Satisfaction**")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.scatterplot(
+        data=main_df,
+        x='delivery_delay',
+        y='review_score',
+        alpha=0.4,
+        color='#FF4B4B'
+    )
+    plt.title("Delivery Delay vs Customer Ratings", fontsize=14)
+    plt.xlabel("Delivery Delay (Days)", fontsize=12)
+    plt.ylabel("Review Score", fontsize=12)
+    plt.ylim(0, 5.5)
+    st.pyplot(fig)
+
+# Correlation metric
+st.metric(
+    label="Correlation Between Delivery Delay and Review Scores",
+    value=f"{delay_review_corr:.2f}",
+    help="Values closer to -1 indicate stronger negative correlation"
+)
 
 # Customer Demographics
 st.subheader("🌍 Customer Geography")

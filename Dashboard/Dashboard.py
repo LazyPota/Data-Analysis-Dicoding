@@ -20,7 +20,7 @@ plt.rcParams['ytick.color'] = 'white'
 
 DATASET_PATH = ("https://raw.githubusercontent.com/LazyPota/Data-Analysis-Dicoding/refs/heads/main/Dashboard/all_data_df.csv")
 GEOLOCATION_PATH = ("https://raw.githubusercontent.com/LazyPota/Data-Analysis-Dicoding/refs/heads/main/Dashboard/geolocation.csv")
-LOGO_PATH = ("https://github.com/LazyPota/Data-Analysis-Dicoding/blob/main/Dashboard/png%20logo%20data%20analysis.jpg")
+LOGO_PATH = ("https://raw.githubusercontent.com/LazyPota/Data-Analysis-Dicoding/refs/heads/main/Dashboard/png%20logo%20data%20analysis.jpg")
 
 # Load data
 datetime_cols = ["order_approved_at", "order_delivered_carrier_date", 

@@ -18,8 +18,8 @@ plt.rcParams['ytick.color'] = 'white'
 
 # Dataset paths (update these with your local paths)
 
-DATASET_PATH = pd.read_csv("https://github.com/LazyPota/Data-Analysis-Dicoding/blob/main/Dashboard/all_data_df.csv")
-GEOLOCATION_PATH = pd.read_csv("https://github.com/LazyPota/Data-Analysis-Dicoding/blob/main/Dashboard/geolocation.csv")
+DATASET_PATH = ("https://github.com/LazyPota/Data-Analysis-Dicoding/blob/main/Dashboard/all_data_df.csv")
+GEOLOCATION_PATH = ("https://github.com/LazyPota/Data-Analysis-Dicoding/blob/main/Dashboard/geolocation.csv")
 LOGO_PATH = ("https://github.com/LazyPota/Data-Analysis-Dicoding/blob/main/Dashboard/png%20logo%20data%20analysis.jpg")
 
 # Load data

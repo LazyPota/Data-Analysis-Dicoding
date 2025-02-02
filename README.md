@@ -30,7 +30,7 @@ This project focuses on data analysis and visualization of public e-commerce dat
 ## Installation <a name="installation"></a>
 1.  Clone the repository:
 
-    ```bash
+    ```
     git clone https://github.com/LazyPota/Data-Analysis-Dicoding.git
     ```
 

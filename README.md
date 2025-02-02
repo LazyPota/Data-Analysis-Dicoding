@@ -28,15 +28,23 @@ This project focuses on data analysis and visualization of public e-commerce dat
   <li><code>README.md</code> # This documentation</li>
 </ul>
 ## Installation <a name="installation"></a>
+1.  Clone the repository:
 
-1. Open The Folder In VSC
+    ```bash
+    git clone [https://github.com/LazyPota/Data-Analysis-Dicoding.git](https://github.com/LazyPota/Data-Analysis-Dicoding.git)
+    ```
 
-2. Install dependencies:
+2.  Navigate to the project directory:
+
+    ```bash
+    cd Data-Analysis Dicoding
+    ```
+
+3.  Install dependencies:
 
     ```bash
     pip install -r requirements.txt
     ```
-
 ## Usage <a name="usage"></a>
 
 1.  **Data Wrangling:**  Scripts for data preparation and cleaning are located in `notebook.ipynb`.
